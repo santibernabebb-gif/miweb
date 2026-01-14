@@ -1,6 +1,6 @@
 {
-  "name": "VLC RouteLog V2",
-  "description": "Gestión inteligente de rutas y kilometraje para flotas en Valencia.",
+  "name": "SantiSystems-RutaKM",
+  "description": "Calculadora de distancias ultra-precisa para Valencia con historial semanal persistente y exportación XLSX.",
   "requestFramePermissions": [
     "geolocation"
   ]
