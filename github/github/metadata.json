@@ -1,0 +1,7 @@
+{
+  "name": "VLC RouteLog V2",
+  "description": "Gestión inteligente de rutas y kilometraje para flotas en Valencia.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
