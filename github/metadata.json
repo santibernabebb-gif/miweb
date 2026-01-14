@@ -1,0 +1,8 @@
+
+{
+  "description": "Calculadora de distancias ultra-precisa para Valencia con historial semanal persistente y exportación XLSX.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "name": "VLC RouteLog"
+}
