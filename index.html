@@ -69,35 +69,49 @@
     .btn-ghost { padding: 14px 24px; border-radius: 12px; background: transparent; color: var(--muted); font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 600; border: 1px solid var(--border); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: background 0.15s, color 0.15s; }
     .btn-ghost:hover { background: var(--subtle); color: var(--text); border-color: transparent; }
 
-    /* APPS */
-    .section { padding: 80px 40px; }
-    .section-header { text-align: center; max-width: 600px; margin: 0 auto 56px; }
-    .section-label { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--blue); margin-bottom: 12px; }
-    .section-header h2 { font-size: clamp(32px, 4vw, 48px); font-weight: 800; letter-spacing: -1.2px; line-height: 1.05; margin-bottom: 14px; }
-    .section-header p { color: var(--muted); font-size: 17px; line-height: 1.65; }
-    .apps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1100px; margin: 0 auto; }
-    .app-card { border: 1px solid var(--border); border-radius: 24px; overflow: hidden; background: var(--white); box-shadow: var(--shadow); transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; }
-    .app-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
-    .app-card-top { padding: 32px 28px 24px; flex: 1; }
-    .app-card-icon { width: 60px; height: 60px; border-radius: 18px; display: grid; place-items: center; font-size: 28px; margin-bottom: 20px; box-shadow: var(--shadow-sm); }
-    .app-card-icon.blue { background: var(--blue-light); }
-    .app-card-icon.green { background: var(--green-light); }
-    .app-card-icon.orange { background: var(--orange-light); }
-    .app-tag { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; margin-bottom: 12px; }
-    .tag-live { background: #dcfce7; color: var(--green); }
-    .tag-soon { background: #fff7ed; color: var(--orange); }
+    /* APPS SHOWCASE */
+    .apps-section { padding: 100px 40px; background: var(--white); }
+    .apps-intro { text-align: center; max-width: 640px; margin: 0 auto 80px; }
+    .section-label { font-size: 12px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase; color: var(--blue); margin-bottom: 14px; }
+    .apps-intro h2 { font-size: clamp(36px, 5vw, 58px); font-weight: 900; letter-spacing: -1.8px; line-height: 1; margin-bottom: 16px; }
+    .apps-intro p { color: var(--muted); font-size: 17px; line-height: 1.7; }
+    .showcase { display: flex; flex-direction: column; gap: 0; max-width: 1140px; margin: 0 auto; }
+    .app-showcase { display: grid; grid-template-columns: 1fr 1fr; min-height: 480px; border-radius: 32px; overflow: hidden; margin-bottom: 28px; box-shadow: 0 8px 40px rgba(15,21,35,0.10); transition: transform 0.3s, box-shadow 0.3s; }
+    .app-showcase:hover { transform: translateY(-4px); box-shadow: 0 24px 64px rgba(15,21,35,0.15); }
+    .app-showcase.reverse .app-visual { order: 2; }
+    .app-showcase.reverse .app-info { order: 1; }
+    .app-visual { position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .app-visual.gestion { background: linear-gradient(145deg, #1e3a8a 0%, #2563eb 55%, #60a5fa 100%); }
+    .app-visual.activate { background: linear-gradient(145deg, #14532d 0%, #16a34a 55%, #4ade80 100%); }
+    .app-visual.oposita { background: linear-gradient(145deg, #7c2d12 0%, #ea580c 55%, #fdba74 100%); }
+    .app-visual-dots { position: absolute; inset: 0; background-image: radial-gradient(circle, rgba(255,255,255,0.18) 1px, transparent 1px); background-size: 28px 28px; }
+    .app-visual-inner { position: relative; z-index: 1; text-align: center; padding: 48px 40px; }
+    .app-big-icon { font-size: 88px; display: block; margin-bottom: 22px; filter: drop-shadow(0 8px 28px rgba(0,0,0,0.3)); animation: floatIcon 4s ease-in-out infinite; }
+    @keyframes floatIcon { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-12px) rotate(2deg); } }
+    .app-visual-name { font-size: 42px; font-weight: 900; color: white; letter-spacing: -1.5px; line-height: 1; text-shadow: 0 2px 24px rgba(0,0,0,0.25); }
+    .app-visual-tagline { font-size: 15px; color: rgba(255,255,255,0.65); margin-top: 8px; font-weight: 400; font-style: italic; }
+    .app-info { background: var(--white); padding: 52px 52px; display: flex; flex-direction: column; justify-content: center; }
+    .app-tag { display: inline-flex; align-items: center; gap: 6px; padding: 5px 13px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; width: fit-content; margin-bottom: 20px; }
+    .tag-live { background: #dcfce7; color: #15803d; }
+    .tag-soon { background: #fff7ed; color: #c2410c; }
     .tag-live::before, .tag-soon::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-    .app-card h3 { font-size: 22px; font-weight: 800; letter-spacing: -0.4px; margin-bottom: 10px; }
-    .app-card p { color: var(--muted); font-size: 14px; line-height: 1.7; margin-bottom: 20px; }
-    .feature-pills { display: flex; flex-wrap: wrap; gap: 6px; }
-    .pill { padding: 5px 10px; background: var(--subtle); border-radius: 999px; font-size: 12px; font-weight: 500; color: var(--muted); }
-    .app-card-bottom { padding: 20px 28px 28px; border-top: 1px solid var(--border); background: var(--off); display: flex; flex-direction: column; gap: 10px; }
-    .download-btn { display: flex; align-items: center; gap: 10px; padding: 11px 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--white); color: var(--text); font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; transition: background 0.15s, transform 0.15s; width: 100%; }
-    .download-btn:hover { background: var(--subtle); transform: translateX(3px); }
-    .download-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
-    .download-btn .btn-sub { font-size: 11px; font-weight: 400; color: var(--muted); display: block; }
-    .download-btn .btn-main { font-size: 14px; font-weight: 700; display: block; }
-    .download-btn.disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+    .app-info h3 { font-size: clamp(30px, 3vw, 42px); font-weight: 900; letter-spacing: -1.2px; line-height: 1; margin-bottom: 14px; color: var(--text); }
+    .app-desc { font-size: 16px; color: var(--muted); line-height: 1.75; margin-bottom: 28px; max-width: 360px; }
+    .feature-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 36px; }
+    .feature-item { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; color: var(--text); }
+    .feature-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .feature-dot.blue { background: var(--blue); }
+    .feature-dot.green { background: var(--green); }
+    .feature-dot.orange { background: var(--orange); }
+    .download-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .dl-btn { display: inline-flex; align-items: center; gap: 10px; padding: 13px 20px; border-radius: 14px; text-decoration: none; font-family: 'Outfit', sans-serif; transition: transform 0.15s, box-shadow 0.15s; border: none; cursor: pointer; }
+    .dl-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.13); }
+    .dl-btn.dark { background: var(--text); color: white; }
+    .dl-btn.light { background: var(--off); color: var(--text); border: 1.5px solid var(--border); }
+    .dl-btn.disabled { opacity: 0.35; pointer-events: none; }
+    .dl-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .dl-sub { font-size: 10px; font-weight: 400; opacity: 0.65; display: block; line-height: 1; }
+    .dl-main { font-size: 14px; font-weight: 700; display: block; line-height: 1.5; }
 
     /* STRIP */
     .strip { background: var(--text); color: white; padding: 80px 40px; text-align: center; }
@@ -170,10 +184,17 @@
     .fade-in:nth-child(4) { animation-delay: 0.24s; }
 
     @media (max-width: 860px) {
-      .apps-grid, .panel-grid, .strip-grid { grid-template-columns: 1fr; }
-      nav, .section, footer, .panel-content, .panel-nav { padding-left: 20px; padding-right: 20px; }
+      .app-showcase { grid-template-columns: 1fr !important; }
+      .app-showcase.reverse .app-visual { order: 0; }
+      .app-showcase.reverse .app-info { order: 0; }
+      .app-visual { min-height: 280px; }
+      .app-info { padding: 36px 28px; }
+      .panel-grid, .strip-grid { grid-template-columns: 1fr; }
+      nav, .apps-section, footer, .panel-content, .panel-nav { padding-left: 20px; padding-right: 20px; }
       .hero { padding: 60px 20px 50px; }
       .nav-links { display: none; }
+      .download-row { flex-direction: column; }
+      .dl-btn { justify-content: center; }
     }
   </style>
 </head>
@@ -213,112 +234,118 @@
     </div>
   </section>
 
-  <section class="section" id="apps">
-    <div class="section-header">
+  <section class="apps-section" id="apps">
+    <div class="apps-intro">
       <div class="section-label">Nuestras aplicaciones</div>
-      <h2>Todo lo que necesitas,<br>en una app</h2>
-      <p>Tres herramientas para distintos momentos de tu vida. Todas con el mismo sello: sencillas, útiles y bien hechas.</p>
+      <h2>Apps que cambian<br>tu día a día</h2>
+      <p>Tres herramientas diseñadas desde cero para resolver problemas reales. Sin complicaciones, directas al grano.</p>
     </div>
 
-    <div class="apps-grid">
+    <div class="showcase">
 
-      <div class="app-card fade-in">
-        <div class="app-card-top">
-          <div class="app-card-icon blue">💼</div>
-          <div class="app-tag tag-live">Disponible</div>
-          <h3>GestionPro</h3>
-          <p>La herramienta definitiva para autónomos y pequeños negocios. Presupuestos, facturas y documentos profesionales en segundos.</p>
-          <div class="feature-pills">
-            <span class="pill">Presupuestos</span>
-            <span class="pill">Facturas</span>
-            <span class="pill">Clientes</span>
-            <span class="pill">PDF</span>
+      <!-- GestionPro -->
+      <div class="app-showcase fade-in">
+        <div class="app-visual gestion">
+          <div class="app-visual-dots"></div>
+          <div class="app-visual-inner">
+            <span class="app-big-icon">💼</span>
+            <div class="app-visual-name">GestionPro</div>
+            <div class="app-visual-tagline">Tu negocio, bajo control</div>
           </div>
         </div>
-        <div class="app-card-bottom">
-          <a href="#" class="download-btn">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76c.3.17.64.24.99.2l12.6-12.6-3.18-3.17L3.18 23.76zm16.6-13.2c.37-.2.6-.6.6-1.04 0-.43-.22-.82-.6-1.03l-3.26-1.87-3.58 3.58 3.58 3.57 3.26-1.21zM.59.26C.22.47 0 .87 0 1.33v21.34c0 .46.22.86.59 1.07l.1.06L12.44 12v-.27L.69.2.59.26zM13.77 8.58l-3.34-3.34 12.6-7.03c.35-.2.74-.2 1.04 0L13.77 8.58z"/></svg>
-            <div>
-              <span class="btn-sub">Descargar en</span>
-              <span class="btn-main">Google Play</span>
-            </div>
-          </a>
-          <a href="#" class="download-btn">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98l-.09.06c-.22.14-2.18 1.27-2.16 3.8.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-            <div>
-              <span class="btn-sub">Descargar en</span>
-              <span class="btn-main">App Store</span>
-            </div>
-          </a>
+        <div class="app-info">
+          <div class="app-tag tag-live">Disponible ahora</div>
+          <h3>Gestiona tu negocio sin esfuerzo</h3>
+          <p class="app-desc">Presupuestos, facturas y documentos profesionales en segundos. La herramienta que todo autónomo y pequeño negocio necesita.</p>
+          <div class="feature-list">
+            <div class="feature-item"><span class="feature-dot blue"></span>Presupuestos y facturas en PDF</div>
+            <div class="feature-item"><span class="feature-dot blue"></span>Gestión de clientes integrada</div>
+            <div class="feature-item"><span class="feature-dot blue"></span>Diseño profesional al instante</div>
+            <div class="feature-item"><span class="feature-dot blue"></span>Historial y seguimiento de pagos</div>
+          </div>
+          <div class="download-row">
+            <a href="#" class="dl-btn dark">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76c.3.17.64.24.99.2l12.6-12.6-3.18-3.17L3.18 23.76zm16.6-13.2c.37-.2.6-.6.6-1.04 0-.43-.22-.82-.6-1.03l-3.26-1.87-3.58 3.58 3.58 3.57 3.26-1.21zM.59.26C.22.47 0 .87 0 1.33v21.34c0 .46.22.86.59 1.07l.1.06L12.44 12v-.27L.69.2.59.26zM13.77 8.58l-3.34-3.34 12.6-7.03c.35-.2.74-.2 1.04 0L13.77 8.58z"/></svg>
+              <div><span class="dl-sub">Descargar en</span><span class="dl-main">Google Play</span></div>
+            </a>
+            <a href="#" class="dl-btn light">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98l-.09.06c-.22.14-2.18 1.27-2.16 3.8.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+              <div><span class="dl-sub">Descargar en</span><span class="dl-main">App Store</span></div>
+            </a>
+          </div>
         </div>
       </div>
 
-      <div class="app-card fade-in">
-        <div class="app-card-top">
-          <div class="app-card-icon green">⚡</div>
-          <div class="app-tag tag-live">Disponible</div>
-          <h3>ActivatePro</h3>
-          <p>Tu compañero para crear hábitos saludables, organizar tu rutina y mantenerte en movimiento. Con guía inteligente integrada.</p>
-          <div class="feature-pills">
-            <span class="pill">Hábitos</span>
-            <span class="pill">Salud</span>
-            <span class="pill">IA</span>
-            <span class="pill">Rutinas</span>
+      <!-- ActivatePro -->
+      <div class="app-showcase reverse fade-in">
+        <div class="app-visual activate">
+          <div class="app-visual-dots"></div>
+          <div class="app-visual-inner">
+            <span class="app-big-icon">⚡</span>
+            <div class="app-visual-name">ActivatePro</div>
+            <div class="app-visual-tagline">Actívate cada día</div>
           </div>
         </div>
-        <div class="app-card-bottom">
-          <a href="#" class="download-btn">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76c.3.17.64.24.99.2l12.6-12.6-3.18-3.17L3.18 23.76zm16.6-13.2c.37-.2.6-.6.6-1.04 0-.43-.22-.82-.6-1.03l-3.26-1.87-3.58 3.58 3.58 3.57 3.26-1.21zM.59.26C.22.47 0 .87 0 1.33v21.34c0 .46.22.86.59 1.07l.1.06L12.44 12v-.27L.69.2.59.26zM13.77 8.58l-3.34-3.34 12.6-7.03c.35-.2.74-.2 1.04 0L13.77 8.58z"/></svg>
-            <div>
-              <span class="btn-sub">Descargar en</span>
-              <span class="btn-main">Google Play</span>
-            </div>
-          </a>
-          <a href="#" class="download-btn">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98l-.09.06c-.22.14-2.18 1.27-2.16 3.8.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-            <div>
-              <span class="btn-sub">Descargar en</span>
-              <span class="btn-main">App Store</span>
-            </div>
-          </a>
+        <div class="app-info">
+          <div class="app-tag tag-live">Disponible ahora</div>
+          <h3>Construye hábitos que duran</h3>
+          <p class="app-desc">Tu compañero para crear rutinas saludables, mantenerte activo y organizarte mejor. Con inteligencia artificial como guía.</p>
+          <div class="feature-list">
+            <div class="feature-item"><span class="feature-dot green"></span>Seguimiento de hábitos diarios</div>
+            <div class="feature-item"><span class="feature-dot green"></span>Guía inteligente con IA integrada</div>
+            <div class="feature-item"><span class="feature-dot green"></span>Estadísticas y progreso visual</div>
+            <div class="feature-item"><span class="feature-dot green"></span>Recordatorios inteligentes</div>
+          </div>
+          <div class="download-row">
+            <a href="#" class="dl-btn dark">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76c.3.17.64.24.99.2l12.6-12.6-3.18-3.17L3.18 23.76zm16.6-13.2c.37-.2.6-.6.6-1.04 0-.43-.22-.82-.6-1.03l-3.26-1.87-3.58 3.58 3.58 3.57 3.26-1.21zM.59.26C.22.47 0 .87 0 1.33v21.34c0 .46.22.86.59 1.07l.1.06L12.44 12v-.27L.69.2.59.26zM13.77 8.58l-3.34-3.34 12.6-7.03c.35-.2.74-.2 1.04 0L13.77 8.58z"/></svg>
+              <div><span class="dl-sub">Descargar en</span><span class="dl-main">Google Play</span></div>
+            </a>
+            <a href="#" class="dl-btn light">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98l-.09.06c-.22.14-2.18 1.27-2.16 3.8.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+              <div><span class="dl-sub">Descargar en</span><span class="dl-main">App Store</span></div>
+            </a>
+          </div>
         </div>
       </div>
 
-      <div class="app-card fade-in">
-        <div class="app-card-top">
-          <div class="app-card-icon orange">🎯</div>
+      <!-- OpositaPro -->
+      <div class="app-showcase fade-in">
+        <div class="app-visual oposita">
+          <div class="app-visual-dots"></div>
+          <div class="app-visual-inner">
+            <span class="app-big-icon">🎯</span>
+            <div class="app-visual-name">OpositaPro</div>
+            <div class="app-visual-tagline">Tu plaza, tu meta</div>
+          </div>
+        </div>
+        <div class="app-info">
           <div class="app-tag tag-soon">Próximamente</div>
-          <h3>OpositaPro</h3>
-          <p>La app que todo opositor necesita. Planificación, seguimiento de temario, test de práctica y preparación intensiva. Muy pronto.</p>
-          <div class="feature-pills">
-            <span class="pill">Estudio</span>
-            <span class="pill">Test</span>
-            <span class="pill">Planificación</span>
-            <span class="pill">Seguimiento</span>
+          <h3>Prepárate para ganar tu plaza</h3>
+          <p class="app-desc">La app definitiva para opositores. Planificación de estudio, seguimiento de temario, test de práctica y mucho más. Muy pronto.</p>
+          <div class="feature-list">
+            <div class="feature-item"><span class="feature-dot orange"></span>Planificación de estudio inteligente</div>
+            <div class="feature-item"><span class="feature-dot orange"></span>Test de práctica por temas</div>
+            <div class="feature-item"><span class="feature-dot orange"></span>Seguimiento del temario completo</div>
+            <div class="feature-item"><span class="feature-dot orange"></span>Estadísticas y simulacros</div>
           </div>
-        </div>
-        <div class="app-card-bottom">
-          <a href="#" class="download-btn disabled">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76c.3.17.64.24.99.2l12.6-12.6-3.18-3.17L3.18 23.76zm16.6-13.2c.37-.2.6-.6.6-1.04 0-.43-.22-.82-.6-1.03l-3.26-1.87-3.58 3.58 3.58 3.57 3.26-1.21zM.59.26C.22.47 0 .87 0 1.33v21.34c0 .46.22.86.59 1.07l.1.06L12.44 12v-.27L.69.2.59.26zM13.77 8.58l-3.34-3.34 12.6-7.03c.35-.2.74-.2 1.04 0L13.77 8.58z"/></svg>
-            <div>
-              <span class="btn-sub">Próximamente en</span>
-              <span class="btn-main">Google Play</span>
-            </div>
-          </a>
-          <a href="#" class="download-btn disabled">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98l-.09.06c-.22.14-2.18 1.27-2.16 3.8.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-            <div>
-              <span class="btn-sub">Próximamente en</span>
-              <span class="btn-main">App Store</span>
-            </div>
-          </a>
+          <div class="download-row">
+            <a href="#" class="dl-btn dark disabled">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76c.3.17.64.24.99.2l12.6-12.6-3.18-3.17L3.18 23.76zm16.6-13.2c.37-.2.6-.6.6-1.04 0-.43-.22-.82-.6-1.03l-3.26-1.87-3.58 3.58 3.58 3.57 3.26-1.21zM.59.26C.22.47 0 .87 0 1.33v21.34c0 .46.22.86.59 1.07l.1.06L12.44 12v-.27L.69.2.59.26zM13.77 8.58l-3.34-3.34 12.6-7.03c.35-.2.74-.2 1.04 0L13.77 8.58z"/></svg>
+              <div><span class="dl-sub">Próximamente en</span><span class="dl-main">Google Play</span></div>
+            </a>
+            <a href="#" class="dl-btn light disabled">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98l-.09.06c-.22.14-2.18 1.27-2.16 3.8.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+              <div><span class="dl-sub">Próximamente en</span><span class="dl-main">App Store</span></div>
+            </a>
+          </div>
         </div>
       </div>
 
     </div>
   </section>
 
-  <section class="strip" id="nosotros">
+    <section class="strip" id="nosotros">
     <h2>Por qué SantiSystems</h2>
     <p>No hacemos apps por hacerlas. Cada producto nace de un problema real y se construye con cuidado hasta que funciona de verdad.</p>
     <div class="strip-grid">
@@ -540,4 +567,5 @@
 </script>
 </body>
 </html>
+
 
