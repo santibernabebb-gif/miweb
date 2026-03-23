@@ -951,10 +951,6 @@
 </div>
 
 <script>
-  // ---- CREDENTIALS (change before deploying) ----
-  const PRIVATE_USER = "cambia_este_usuario";
-  const PRIVATE_PASS = "cambia_esta_contraseña";
-
   // ---- CANVAS PARTICLES ----
   const canvas = document.getElementById('bg-canvas');
   const ctx = canvas.getContext('2d');
@@ -1040,15 +1036,40 @@
     passwordInput.value = '';
   }
 
-  function doLogin() {
+  async function doLogin() {
     const u = usernameInput.value.trim();
     const p = passwordInput.value;
-    if (u === PRIVATE_USER && p === PRIVATE_PASS) {
-      showDashboard(u);
-    } else {
-      errorMsg.innerHTML = '⚠ Usuario o contraseña incorrectos.';
-      passwordInput.value = '';
-      passwordInput.focus();
+
+    if (!u || !p) {
+      errorMsg.innerHTML = "⚠ Introduce usuario y contraseña.";
+      return;
+    }
+
+    loginBtn.disabled = true;
+    loginBtn.textContent = "Verificando…";
+    errorMsg.textContent = "";
+
+    try {
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: u, password: p }),
+      });
+
+      const data = await res.json();
+
+      if (data.ok) {
+        showDashboard(u);
+      } else {
+        errorMsg.innerHTML = "⚠ " + (data.error || "Credenciales incorrectas.");
+        passwordInput.value = "";
+        passwordInput.focus();
+      }
+    } catch {
+      errorMsg.innerHTML = "⚠ Error de conexión. Inténtalo de nuevo.";
+    } finally {
+      loginBtn.disabled = false;
+      loginBtn.textContent = "Acceder al panel →";
     }
   }
 
