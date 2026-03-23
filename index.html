@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SantiSystems</title>
+  <style>
+    :root {
+      --bg: #0b1220;
+      --bg-soft: #121a2b;
+      --card: rgba(18, 26, 43, 0.92);
+      --line: rgba(255,255,255,0.08);
+      --text: #eef2ff;
+      --muted: #a9b3c7;
+      --accent: #60a5fa;
+      --accent-2: #22c55e;
+      --danger: #f87171;
+      --shadow: 0 20px 60px rgba(0,0,0,0.35);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(96,165,250,0.20), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(34,197,94,0.14), transparent 28%),
+        linear-gradient(160deg, #07101d 0%, #0b1220 55%, #0f172a 100%);
+      color: var(--text);
+      min-height: 100%;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .shell {
+      width: 100%;
+      max-width: 1180px;
+      min-height: 760px;
+      border: 1px solid var(--line);
+      background: rgba(8, 14, 26, 0.55);
+      backdrop-filter: blur(10px);
+      border-radius: 30px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    .brand-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--accent), #2563eb);
+      color: white;
+      font-weight: 800;
+      box-shadow: 0 12px 28px rgba(37,99,235,0.35);
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .status-pill {
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .main {
+      padding: 34px;
+    }
+
+    .login-wrap {
+      min-height: calc(760px - 79px);
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .hero {
+      padding: 16px 10px 16px 8px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 18px;
+      background: rgba(255,255,255,0.03);
+    }
+
+    h1 {
+      font-size: clamp(40px, 6vw, 68px);
+      line-height: 0.95;
+      margin: 0 0 18px;
+      letter-spacing: -1.8px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      line-height: 1.65;
+      max-width: 650px;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .construction-box {
+      margin-top: 26px;
+      padding: 18px 20px;
+      border: 1px solid rgba(96,165,250,0.22);
+      background: rgba(96,165,250,0.08);
+      border-radius: 18px;
+      color: #dbeafe;
+      max-width: 540px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 26px;
+      box-shadow: var(--shadow);
+    }
+
+    .card h2 {
+      margin: 0 0 8px;
+      font-size: 28px;
+    }
+
+    .card p {
+      margin: 0 0 20px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    label {
+      display: block;
+      margin: 14px 0 8px;
+      font-size: 14px;
+      color: #dbe7ff;
+      font-weight: 600;
+    }
+
+    input {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      color: white;
+      border-radius: 14px;
+      padding: 14px 15px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: rgba(96,165,250,0.65);
+      box-shadow: 0 0 0 4px rgba(96,165,250,0.12);
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    button, .btn {
+      border: 0;
+      border-radius: 14px;
+      padding: 14px 18px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    button:hover, .btn:hover { transform: translateY(-1px); }
+    button:active, .btn:active { transform: translateY(0); }
+
+    .primary {
+      background: linear-gradient(135deg, var(--accent), #2563eb);
+      color: white;
+      min-width: 150px;
+    }
+
+    .secondary {
+      background: rgba(255,255,255,0.05);
+      color: white;
+      border: 1px solid var(--line);
+    }
+
+    .hint {
+      margin-top: 14px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .error {
+      margin-top: 14px;
+      min-height: 20px;
+      color: var(--danger);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .page {
+      min-height: calc(760px - 79px);
+      display: flex;
+      flex-direction: column;
+      gap: 26px;
+    }
+
+    .hero-panel {
+      padding: 34px;
+      border-radius: 26px;
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(circle at top right, rgba(96,165,250,0.18), transparent 24%),
+        linear-gradient(145deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+    }
+
+    .hero-panel h2 {
+      font-size: clamp(32px, 5vw, 54px);
+      line-height: 1;
+      margin: 0 0 12px;
+      letter-spacing: -1.2px;
+    }
+
+    .hero-panel p {
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 22px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .app-card {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 22px;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .app-tag {
+      display: inline-block;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      color: #dbeafe;
+      font-size: 12px;
+      border: 1px solid var(--line);
+      margin-bottom: 14px;
+    }
+
+    .app-card h3 {
+      font-size: 24px;
+      margin: 0 0 12px;
+    }
+
+    .app-card p {
+      color: var(--muted);
+      line-height: 1.65;
+      margin: 0 0 18px;
+    }
+
+    .features {
+      margin: 0;
+      padding-left: 18px;
+      color: #e5ecfb;
+      line-height: 1.8;
+    }
+
+    .footer-note {
+      color: var(--muted);
+      font-size: 14px;
+      padding: 8px 4px 0;
+    }
+
+    @media (max-width: 980px) {
+      .login-wrap {
+        grid-template-columns: 1fr;
+      }
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      .main {
+        padding: 22px;
+      }
+      h1 {
+        font-size: 42px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-badge">S</div>
+        <div>
+          <div>SantiSystems</div>
+          <div style="font-size: 13px; color: var(--muted); font-weight: 500;">Portal privado</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="status-pill">www.santisystems.es</div>
+        <div class="status-pill">Zona privada</div>
+      </div>
+    </div>
+
+    <div class="main">
+      <section id="loginScreen" class="login-wrap">
+        <div class="hero">
+          <div class="eyebrow">SantiSystems · Acceso restringido</div>
+          <h1>En construcción</h1>
+          <p>
+            Esta web está preparada como portada privada de SantiSystems. Solo tras iniciar sesión
+            se accede al panel donde presentarás tus apps: <strong>GestionPro</strong>,
+            <strong>ActivatePro</strong> y <strong>OpositaPro</strong>.
+          </p>
+          <div class="construction-box">
+            Aquí puedes dejar esta primera pantalla como aviso de “en construcción” mientras terminas
+            el contenido real de tu web y decides cómo quieres publicarla con tu dominio.
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Entrar</h2>
+          <p>Introduce tu usuario y contraseña para acceder al panel privado.</p>
+
+          <label for="username">Usuario</label>
+          <input id="username" type="text" placeholder="Tu usuario" autocomplete="username" />
+
+          <label for="password">Contraseña</label>
+          <input id="password" type="password" placeholder="Tu contraseña" autocomplete="current-password" />
+
+          <div class="btn-row">
+            <button id="loginBtn" class="primary">Acceder</button>
+            <button id="demoBtn" class="secondary" type="button">Limpiar</button>
+          </div>
+
+          <div id="errorMsg" class="error"></div>
+          <div class="hint">
+            <strong>Importante:</strong> este login sirve para una versión rápida en un único archivo HTML,
+            pero no es seguridad real si lo subes tal cual a Cloudflare Pages. Para que solo entres tú de verdad,
+            debes protegerlo con Cloudflare Access o con un Worker delante.
+          </div>
+        </div>
+      </section>
+
+      <section id="privateArea" class="page hidden">
+        <div class="hero-panel">
+          <div class="eyebrow">SantiSystems · Panel interno</div>
+          <h2>Apps y proyectos</h2>
+          <p>
+            Esta segunda parte ya actúa como escaparate privado de tu marca. Desde aquí puedes presentar
+            tus aplicaciones actuales y futuras con un diseño limpio, directo y fácil de ampliar sin añadir más archivos.
+          </p>
+          <div class="actions">
+            <button class="primary" id="backToConstruction">Ver portada</button>
+            <button class="secondary" id="logoutBtn">Cerrar sesión</button>
+          </div>
+        </div>
+
+        <div class="grid">
+          <article class="app-card">
+            <div class="app-tag">App activa</div>
+            <h3>GestionPro</h3>
+            <p>
+              Solución enfocada a presupuestos, facturas y documentos profesionales para autónomos y pequeños negocios.
+            </p>
+            <ul class="features">
+              <li>Generación de presupuestos y facturas</li>
+              <li>Enfoque profesional y productivo</li>
+              <li>Base ideal para mostrar capturas, funciones y enlaces</li>
+            </ul>
+          </article>
+
+          <article class="app-card">
+            <div class="app-tag">App activa</div>
+            <h3>ActivatePro</h3>
+            <p>
+              Proyecto orientado a hábitos, salud, organización o uso guiado por IA, listo para presentarse como producto moderno.
+            </p>
+            <ul class="features">
+              <li>Imagen moderna de marca</li>
+              <li>Espacio para monetización, mejoras y novedades</li>
+              <li>Preparado para destacar beneficios y versión futura</li>
+            </ul>
+          </article>
+
+          <article class="app-card">
+            <div class="app-tag">Próximamente</div>
+            <h3>OpositaPro</h3>
+            <p>
+              Nueva app pensada para opositores, con enfoque en estudio, planificación, seguimiento y preparación intensiva.
+            </p>
+            <ul class="features">
+              <li>Proyecto nuevo de SantiSystems</li>
+              <li>Zona reservada para descripción, roadmap y lanzamiento</li>
+              <li>Perfecta para anunciarla incluso antes de terminarla</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="card">
+          <h2>Texto de portada sugerido</h2>
+          <p>
+            Desarrollamos apps útiles, claras y enfocadas a resolver problemas reales. En SantiSystems apostamos por herramientas
+            prácticas, diseño directo y evolución continua de cada producto.
+          </p>
+          <div class="footer-note">
+            Puedes convertir esta sección en una zona pública más adelante, añadir capturas, botones a Play Store,
+            enlaces a demos o formulario de contacto, todo dentro del mismo archivo si quieres mantenerlo simple.
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    // CAMBIA ESTOS DOS VALORES ANTES DE SUBIR LA WEB
+    const PRIVATE_USER = "cambia_este_usuario";
+    const PRIVATE_PASS = "cambia_esta_contraseña";
+
+    const loginScreen = document.getElementById("loginScreen");
+    const privateArea = document.getElementById("privateArea");
+    const loginBtn = document.getElementById("loginBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const backToConstruction = document.getElementById("backToConstruction");
+    const demoBtn = document.getElementById("demoBtn");
+    const usernameInput = document.getElementById("username");
+    const passwordInput = document.getElementById("password");
+    const errorMsg = document.getElementById("errorMsg");
+
+    function showPrivateArea() {
+      loginScreen.classList.add("hidden");
+      privateArea.classList.remove("hidden");
+      sessionStorage.setItem("santisystems_auth", "ok");
+      errorMsg.textContent = "";
+    }
+
+    function showLogin() {
+      privateArea.classList.add("hidden");
+      loginScreen.classList.remove("hidden");
+    }
+
+    function doLogin() {
+      const user = usernameInput.value.trim();
+      const pass = passwordInput.value;
+
+      if (user === PRIVATE_USER && pass === PRIVATE_PASS) {
+        showPrivateArea();
+      } else {
+        errorMsg.textContent = "Usuario o contraseña incorrectos.";
+      }
+    }
+
+    loginBtn.addEventListener("click", doLogin);
+
+    passwordInput.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") doLogin();
+    });
+
+    usernameInput.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") doLogin();
+    });
+
+    logoutBtn.addEventListener("click", function () {
+      sessionStorage.removeItem("santisystems_auth");
+      passwordInput.value = "";
+      showLogin();
+    });
+
+    backToConstruction.addEventListener("click", function () {
+      showLogin();
+    });
+
+    demoBtn.addEventListener("click", function () {
+      usernameInput.value = "";
+      passwordInput.value = "";
+      errorMsg.textContent = "";
+      usernameInput.focus();
+    });
+
+    if (sessionStorage.getItem("santisystems_auth") === "ok") {
+      showPrivateArea();
+    }
+  </script>
+</body>
+</html>
