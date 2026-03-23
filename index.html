@@ -4,547 +4,1063 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SantiSystems</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0b1220;
-      --bg-soft: #121a2b;
-      --card: rgba(18, 26, 43, 0.92);
-      --line: rgba(255,255,255,0.08);
-      --text: #eef2ff;
-      --muted: #a9b3c7;
-      --accent: #60a5fa;
-      --accent-2: #22c55e;
-      --danger: #f87171;
-      --shadow: 0 20px 60px rgba(0,0,0,0.35);
-      --radius: 22px;
+      --ink: #05080f;
+      --surface: #090d18;
+      --glass: rgba(255,255,255,0.04);
+      --glass-border: rgba(255,255,255,0.09);
+      --text: #f0f4ff;
+      --muted: #7a85a3;
+      --blue: #4f8ef7;
+      --green: #22d87a;
+      --purple: #a78bfa;
+      --orange: #fb923c;
+      --red: #f87171;
+      --glow-blue: rgba(79,142,247,0.35);
+      --glow-green: rgba(34,216,122,0.25);
     }
 
-    * { box-sizing: border-box; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html, body {
-      margin: 0;
-      font-family: Inter, Arial, Helvetica, sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(96,165,250,0.20), transparent 32%),
-        radial-gradient(circle at bottom right, rgba(34,197,94,0.14), transparent 28%),
-        linear-gradient(160deg, #07101d 0%, #0b1220 55%, #0f172a 100%);
-      color: var(--text);
-      min-height: 100%;
-    }
+    html { height: 100%; }
 
     body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--ink);
+      color: var(--text);
       min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ============ CANVAS BG ============ */
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ============ PAGES ============ */
+    .page {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+    }
+
+    .hidden { display: none !important; }
+
+    /* =============================
+       LOGIN PAGE
+    ============================= */
+    #loginPage {
       display: flex;
       align-items: center;
       justify-content: center;
+      min-height: 100vh;
       padding: 24px;
     }
 
-    .shell {
+    .login-container {
       width: 100%;
-      max-width: 1180px;
-      min-height: 760px;
-      border: 1px solid var(--line);
-      background: rgba(8, 14, 26, 0.55);
-      backdrop-filter: blur(10px);
-      border-radius: 30px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      position: relative;
+      max-width: 460px;
+      animation: slideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
 
-    .topbar {
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(32px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .login-logo {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 18px 22px;
-      border-bottom: 1px solid var(--line);
-      background: rgba(255,255,255,0.02);
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 700;
-      letter-spacing: 0.2px;
-    }
-
-    .brand-badge {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, var(--accent), #2563eb);
-      color: white;
-      font-weight: 800;
-      box-shadow: 0 12px 28px rgba(37,99,235,0.35);
-    }
-
-    .topbar-right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .status-pill {
-      padding: 8px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.03);
-    }
-
-    .main {
-      padding: 34px;
-    }
-
-    .login-wrap {
-      min-height: calc(760px - 79px);
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 28px;
-      align-items: center;
-    }
-
-    .hero {
-      padding: 16px 10px 16px 8px;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      color: var(--muted);
-      font-size: 13px;
-      margin-bottom: 18px;
-      background: rgba(255,255,255,0.03);
-    }
-
-    h1 {
-      font-size: clamp(40px, 6vw, 68px);
-      line-height: 0.95;
-      margin: 0 0 18px;
-      letter-spacing: -1.8px;
-    }
-
-    .hero p {
-      font-size: 18px;
-      line-height: 1.65;
-      max-width: 650px;
-      color: var(--muted);
-      margin: 0;
-    }
-
-    .construction-box {
-      margin-top: 26px;
-      padding: 18px 20px;
-      border: 1px solid rgba(96,165,250,0.22);
-      background: rgba(96,165,250,0.08);
-      border-radius: 18px;
-      color: #dbeafe;
-      max-width: 540px;
-    }
-
-    .card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 26px;
-      box-shadow: var(--shadow);
-    }
-
-    .card h2 {
-      margin: 0 0 8px;
-      font-size: 28px;
-    }
-
-    .card p {
-      margin: 0 0 20px;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    label {
-      display: block;
-      margin: 14px 0 8px;
-      font-size: 14px;
-      color: #dbe7ff;
-      font-weight: 600;
-    }
-
-    input {
-      width: 100%;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.04);
-      color: white;
-      border-radius: 14px;
-      padding: 14px 15px;
-      font-size: 15px;
-      outline: none;
-    }
-
-    input:focus {
-      border-color: rgba(96,165,250,0.65);
-      box-shadow: 0 0 0 4px rgba(96,165,250,0.12);
-    }
-
-    .btn-row {
-      display: flex;
-      gap: 12px;
-      margin-top: 20px;
-      flex-wrap: wrap;
-    }
-
-    button, .btn {
-      border: 0;
-      border-radius: 14px;
-      padding: 14px 18px;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: transform 0.15s ease, opacity 0.15s ease;
-      text-decoration: none;
-      display: inline-flex;
       align-items: center;
       justify-content: center;
+      gap: 14px;
+      margin-bottom: 38px;
     }
 
-    button:hover, .btn:hover { transform: translateY(-1px); }
-    button:active, .btn:active { transform: translateY(0); }
-
-    .primary {
-      background: linear-gradient(135deg, var(--accent), #2563eb);
+    .logo-mark {
+      width: 52px;
+      height: 52px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, var(--blue) 0%, #1e40af 100%);
+      display: grid;
+      place-items: center;
+      font-family: 'Syne', sans-serif;
+      font-weight: 900;
+      font-size: 22px;
       color: white;
-      min-width: 150px;
+      box-shadow: 0 0 40px var(--glow-blue), 0 8px 20px rgba(0,0,0,0.4);
+      flex-shrink: 0;
     }
 
-    .secondary {
-      background: rgba(255,255,255,0.05);
-      color: white;
-      border: 1px solid var(--line);
+    .logo-text {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 26px;
+      letter-spacing: -0.5px;
     }
 
-    .hint {
-      margin-top: 14px;
-      font-size: 13px;
+    .logo-text span {
+      color: var(--blue);
+    }
+
+    .login-card {
+      background: rgba(12, 17, 32, 0.85);
+      border: 1px solid var(--glass-border);
+      border-radius: 28px;
+      padding: 38px 36px;
+      backdrop-filter: blur(20px);
+      box-shadow:
+        0 40px 80px rgba(0,0,0,0.5),
+        0 0 0 1px rgba(255,255,255,0.04) inset,
+        0 1px 0 rgba(255,255,255,0.08) inset;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-card::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, var(--glow-blue), transparent 70%);
+      pointer-events: none;
+    }
+
+    .login-card h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      margin-bottom: 6px;
+    }
+
+    .login-card .subtitle {
       color: var(--muted);
+      font-size: 15px;
+      font-weight: 300;
+      margin-bottom: 32px;
       line-height: 1.5;
     }
 
-    .error {
-      margin-top: 14px;
+    .field {
+      margin-bottom: 18px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #9ba8c5;
+      margin-bottom: 8px;
+      letter-spacing: 0.3px;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .input-wrap svg {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      width: 17px;
+      height: 17px;
+      pointer-events: none;
+    }
+
+    .field input {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 14px 15px 14px 42px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      color: white;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+
+    .field input::placeholder { color: rgba(255,255,255,0.2); }
+
+    .field input:focus {
+      border-color: rgba(79,142,247,0.6);
+      background: rgba(79,142,247,0.07);
+      box-shadow: 0 0 0 4px rgba(79,142,247,0.12);
+    }
+
+    .error-msg {
       min-height: 20px;
-      color: var(--danger);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--red);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--blue) 0%, #2563eb 100%);
+      color: white;
+      font-family: 'Syne', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.2px;
+      transition: transform 0.15s, box-shadow 0.2s, opacity 0.15s;
+      box-shadow: 0 8px 24px rgba(79,142,247,0.35);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-login::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.12), transparent);
+      border-radius: inherit;
+    }
+
+    .btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 32px rgba(79,142,247,0.45);
+    }
+
+    .btn-login:active { transform: translateY(0); }
+
+    .login-footer {
+      margin-top: 24px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .under-construction {
+      margin-top: 32px;
+      padding: 20px;
+      border: 1px solid rgba(79,142,247,0.2);
+      background: rgba(79,142,247,0.06);
+      border-radius: 18px;
+      font-size: 13px;
+      color: #93b4e8;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .under-construction strong {
+      display: block;
+      font-family: 'Syne', sans-serif;
       font-size: 14px;
-      font-weight: 600;
+      color: var(--blue);
+      margin-bottom: 6px;
     }
 
-    .hidden {
-      display: none !important;
+    /* =============================
+       DASHBOARD PAGE
+    ============================= */
+    #dashboardPage {
+      min-height: 100vh;
     }
 
-    .page {
-      min-height: calc(760px - 79px);
+    /* Sidebar */
+    .layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 240px;
+      flex-shrink: 0;
+      background: rgba(8,12,22,0.9);
+      border-right: 1px solid var(--glass-border);
+      backdrop-filter: blur(20px);
       display: flex;
       flex-direction: column;
-      gap: 26px;
+      padding: 28px 16px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
     }
 
-    .hero-panel {
-      padding: 34px;
-      border-radius: 26px;
-      border: 1px solid var(--line);
-      background:
-        radial-gradient(circle at top right, rgba(96,165,250,0.18), transparent 24%),
-        linear-gradient(145deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-    }
-
-    .hero-panel h2 {
-      font-size: clamp(32px, 5vw, 54px);
-      line-height: 1;
-      margin: 0 0 12px;
-      letter-spacing: -1.2px;
-    }
-
-    .hero-panel p {
-      max-width: 760px;
-      color: var(--muted);
-      font-size: 18px;
-      line-height: 1.7;
-      margin: 0;
-    }
-
-    .actions {
+    .sidebar-logo {
       display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 22px;
+      align-items: center;
+      gap: 10px;
+      padding: 0 6px;
+      margin-bottom: 36px;
     }
 
-    .grid {
+    .sidebar-logo .logo-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      font-size: 16px;
+    }
+
+    .sidebar-logo-text {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+    }
+
+    .sidebar-logo-text span { color: var(--blue); }
+
+    .nav-section-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 1.2px;
+      color: var(--muted);
+      text-transform: uppercase;
+      padding: 0 10px;
+      margin-bottom: 8px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 2px;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+    }
+
+    .nav-item svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+    .nav-item:hover {
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+    }
+
+    .nav-item.active {
+      background: rgba(79,142,247,0.15);
+      color: var(--blue);
+    }
+
+    .nav-item .nav-badge {
+      margin-left: auto;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(79,142,247,0.2);
+      color: var(--blue);
+    }
+
+    .sidebar-bottom {
+      margin-top: auto;
+    }
+
+    .user-chip {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--glass-border);
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--blue), #1d4ed8);
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      place-items: center;
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .user-info { flex: 1; min-width: 0; }
+    .user-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .user-role { font-size: 11px; color: var(--muted); }
+
+    .btn-logout {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 8px;
+      transition: color 0.15s, background 0.15s;
+      display: grid;
+      place-items: center;
+    }
+
+    .btn-logout:hover { color: var(--red); background: rgba(248,113,113,0.1); }
+    .btn-logout svg { width: 16px; height: 16px; }
+
+    /* Main content */
+    .content {
+      flex: 1;
+      padding: 36px 40px;
+      overflow-y: auto;
+    }
+
+    .content-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 36px;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .content-header h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      line-height: 1;
+    }
+
+    .content-header .greeting {
+      color: var(--muted);
+      font-size: 15px;
+      margin-top: 6px;
+      font-weight: 300;
+    }
+
+    /* Stats row */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 22px 24px;
+      transition: transform 0.2s, border-color 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      right: -20px;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      opacity: 0.15;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(255,255,255,0.15);
+    }
+
+    .stat-card.blue::before { background: var(--blue); }
+    .stat-card.green::before { background: var(--green); }
+    .stat-card.purple::before { background: var(--purple); }
+
+    .stat-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 16px;
+    }
+
+    .stat-icon svg { width: 20px; height: 20px; }
+    .stat-icon.blue { background: rgba(79,142,247,0.15); color: var(--blue); }
+    .stat-icon.green { background: rgba(34,216,122,0.15); color: var(--green); }
+    .stat-icon.purple { background: rgba(167,139,250,0.15); color: var(--purple); }
+
+    .stat-value {
+      font-family: 'Syne', sans-serif;
+      font-size: 30px;
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    /* Apps grid */
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--glass-border);
+    }
+
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
       gap: 18px;
+      margin-bottom: 32px;
     }
 
     .app-card {
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      padding: 22px;
       background: rgba(255,255,255,0.03);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 26px;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
     }
 
-    .app-tag {
-      display: inline-block;
-      padding: 7px 10px;
+    .app-card::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .app-card:hover::before { opacity: 1; }
+
+    .app-card.blue-card::before { background: radial-gradient(circle, var(--glow-blue), transparent 70%); }
+    .app-card.green-card::before { background: radial-gradient(circle, var(--glow-green), transparent 70%); }
+    .app-card.purple-card::before { background: radial-gradient(circle, rgba(167,139,250,0.25), transparent 70%); }
+
+    .app-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255,255,255,0.14);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+
+    .app-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .app-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+    }
+
+    .app-icon.blue { background: rgba(79,142,247,0.18); }
+    .app-icon.green { background: rgba(34,216,122,0.18); }
+    .app-icon.purple { background: rgba(167,139,250,0.18); }
+
+    .app-status {
+      padding: 5px 10px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.06);
-      color: #dbeafe;
-      font-size: 12px;
-      border: 1px solid var(--line);
-      margin-bottom: 14px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    .status-live {
+      background: rgba(34,216,122,0.15);
+      color: var(--green);
+      border: 1px solid rgba(34,216,122,0.25);
+    }
+
+    .status-soon {
+      background: rgba(251,146,60,0.15);
+      color: var(--orange);
+      border: 1px solid rgba(251,146,60,0.25);
     }
 
     .app-card h3 {
-      font-size: 24px;
-      margin: 0 0 12px;
+      font-family: 'Syne', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      letter-spacing: -0.3px;
     }
 
     .app-card p {
       color: var(--muted);
+      font-size: 13.5px;
       line-height: 1.65;
-      margin: 0 0 18px;
+      margin-bottom: 18px;
+      font-weight: 300;
     }
 
-    .features {
-      margin: 0;
-      padding-left: 18px;
-      color: #e5ecfb;
-      line-height: 1.8;
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
     }
 
-    .footer-note {
+    .feature-list li {
+      font-size: 13px;
+      color: #9aaece;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .feature-list li::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: currentColor;
+      flex-shrink: 0;
+    }
+
+    .feature-list.blue li { color: #7eb3f7; }
+    .feature-list.green li { color: #5ee8a6; }
+    .feature-list.purple li { color: #c4b5fd; }
+
+    /* Brand box */
+    .brand-box {
+      background: rgba(255,255,255,0.025);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 30px 32px;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .brand-box-text { flex: 1; min-width: 240px; }
+
+    .brand-box-text h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .brand-box-text p {
       color: var(--muted);
       font-size: 14px;
-      padding: 8px 4px 0;
+      line-height: 1.7;
+      font-weight: 300;
     }
 
-    @media (max-width: 980px) {
-      .login-wrap {
-        grid-template-columns: 1fr;
+    .brand-box-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 11px 20px;
+      border-radius: 12px;
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.15s, opacity 0.15s, box-shadow 0.15s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--blue), #1d4ed8);
+      color: white;
+      box-shadow: 0 6px 20px rgba(79,142,247,0.3);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      border: 1px solid var(--glass-border);
+    }
+
+    /* Animated entrance */
+    .dash-animate {
+      animation: fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .dash-animate:nth-child(1) { animation-delay: 0.05s; }
+    .dash-animate:nth-child(2) { animation-delay: 0.12s; }
+    .dash-animate:nth-child(3) { animation-delay: 0.18s; }
+    .dash-animate:nth-child(4) { animation-delay: 0.24s; }
+    .dash-animate:nth-child(5) { animation-delay: 0.30s; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .sidebar { width: 200px; }
+      .content { padding: 24px; }
+      .apps-grid { grid-template-columns: 1fr; }
+      .stats-row { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 680px) {
+      .layout { flex-direction: column; }
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 16px;
+        gap: 8px;
       }
-      .grid {
-        grid-template-columns: 1fr;
-      }
-      .main {
-        padding: 22px;
-      }
-      h1 {
-        font-size: 42px;
-      }
+      .sidebar-logo, .nav-section-label, .sidebar-bottom { width: 100%; }
     }
   </style>
 </head>
 <body>
-  <div class="shell">
-    <div class="topbar">
-      <div class="brand">
-        <div class="brand-badge">S</div>
-        <div>
-          <div>SantiSystems</div>
-          <div style="font-size: 13px; color: var(--muted); font-weight: 500;">Portal privado</div>
-        </div>
-      </div>
-      <div class="topbar-right">
-        <div class="status-pill">www.santisystems.es</div>
-        <div class="status-pill">Zona privada</div>
-      </div>
+
+<!-- Animated background -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- ============ LOGIN PAGE ============ -->
+<div id="loginPage" class="page">
+  <div class="login-container">
+    <div class="login-logo">
+      <div class="logo-mark">S</div>
+      <div class="logo-text">Santi<span>Systems</span></div>
     </div>
 
-    <div class="main">
-      <section id="loginScreen" class="login-wrap">
-        <div class="hero">
-          <div class="eyebrow">SantiSystems · Acceso restringido</div>
-          <h1>En construcción</h1>
-          <p>
-            Esta web está preparada como portada privada de SantiSystems. Solo tras iniciar sesión
-            se accede al panel donde presentarás tus apps: <strong>GestionPro</strong>,
-            <strong>ActivatePro</strong> y <strong>OpositaPro</strong>.
-          </p>
-          <div class="construction-box">
-            Aquí puedes dejar esta primera pantalla como aviso de “en construcción” mientras terminas
-            el contenido real de tu web y decides cómo quieres publicarla con tu dominio.
-          </div>
+    <div class="login-card">
+      <h1>Bienvenido</h1>
+      <p class="subtitle">Accede al panel privado de SantiSystems.</p>
+
+      <div class="field">
+        <label for="username">Usuario</label>
+        <div class="input-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/></svg>
+          <input id="username" type="text" placeholder="Tu usuario" autocomplete="username" />
         </div>
+      </div>
 
-        <div class="card">
-          <h2>Entrar</h2>
-          <p>Introduce tu usuario y contraseña para acceder al panel privado.</p>
-
-          <label for="username">Usuario</label>
-          <input id="username" type="text" placeholder="usuario" autocomplete="username" />
-
-          <label for="password">Contraseña</label>
-          <input id="password" type="password" placeholder="contraseña" autocomplete="current-password" />
-
-          <div class="btn-row">
-            <button id="loginBtn" class="primary">Acceder</button>
-            <button id="demoBtn" class="secondary" type="button">Limpiar</button>
-          </div>
-
-          <div id="errorMsg" class="error"></div>
-          <div class="hint">
-            <strong>Importante:</strong> este login sirve para una versión rápida en un único archivo HTML,
-            pero no es seguridad real si lo subes tal cual a Cloudflare Pages. Para que solo entres tú de verdad,
-            debes protegerlo con Cloudflare Access o con un Worker delante.
-          </div>
+      <div class="field">
+        <label for="password">Contraseña</label>
+        <div class="input-wrap">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/></svg>
+          <input id="password" type="password" placeholder="Tu contraseña" autocomplete="current-password" />
         </div>
-      </section>
+      </div>
 
-      <section id="privateArea" class="page hidden">
-        <div class="hero-panel">
-          <div class="eyebrow">SantiSystems · Panel interno</div>
-          <h2>Apps y proyectos</h2>
-          <p>
-            Esta segunda parte ya actúa como escaparate privado de tu marca. Desde aquí puedes presentar
-            tus aplicaciones actuales y futuras con un diseño limpio, directo y fácil de ampliar sin añadir más archivos.
-          </p>
-          <div class="actions">
-            <button class="primary" id="backToConstruction">Ver portada</button>
-            <button class="secondary" id="logoutBtn">Cerrar sesión</button>
-          </div>
-        </div>
+      <div id="errorMsg" class="error-msg"></div>
 
-        <div class="grid">
-          <article class="app-card">
-            <div class="app-tag">App activa</div>
-            <h3>GestionPro</h3>
-            <p>
-              Solución enfocada a presupuestos, facturas y documentos profesionales para autónomos y pequeños negocios.
-            </p>
-            <ul class="features">
-              <li>Generación de presupuestos y facturas</li>
-              <li>Enfoque profesional y productivo</li>
-              <li>Base ideal para mostrar capturas, funciones y enlaces</li>
-            </ul>
-          </article>
+      <button id="loginBtn" class="btn-login">Acceder al panel →</button>
 
-          <article class="app-card">
-            <div class="app-tag">App activa</div>
-            <h3>ActivatePro</h3>
-            <p>
-              Proyecto orientado a hábitos, salud, organización o uso guiado por IA, listo para presentarse como producto moderno.
-            </p>
-            <ul class="features">
-              <li>Imagen moderna de marca</li>
-              <li>Espacio para monetización, mejoras y novedades</li>
-              <li>Preparado para destacar beneficios y versión futura</li>
-            </ul>
-          </article>
+      <div class="login-footer">www.santisystems.es · Portal privado</div>
+    </div>
 
-          <article class="app-card">
-            <div class="app-tag">Próximamente</div>
-            <h3>OpositaPro</h3>
-            <p>
-              Nueva app pensada para opositores, con enfoque en estudio, planificación, seguimiento y preparación intensiva.
-            </p>
-            <ul class="features">
-              <li>Proyecto nuevo de SantiSystems</li>
-              <li>Zona reservada para descripción, roadmap y lanzamiento</li>
-              <li>Perfecta para anunciarla incluso antes de terminarla</li>
-            </ul>
-          </article>
-        </div>
-
-        <div class="card">
-          <h2>Texto de portada sugerido</h2>
-          <p>
-            Desarrollamos apps útiles, claras y enfocadas a resolver problemas reales. En SantiSystems apostamos por herramientas
-            prácticas, diseño directo y evolución continua de cada producto.
-          </p>
-          <div class="footer-note">
-            Puedes convertir esta sección en una zona pública más adelante, añadir capturas, botones a Play Store,
-            enlaces a demos o formulario de contacto, todo dentro del mismo archivo si quieres mantenerlo simple.
-          </div>
-        </div>
-      </section>
+    <div class="under-construction">
+      <strong>🚧 En construcción</strong>
+      Esta portada actúa como aviso mientras terminas el contenido real.
+      Protege el acceso con Cloudflare Access para mayor seguridad real.
     </div>
   </div>
+</div>
 
-  <script>
-    // CAMBIA ESTOS DOS VALORES ANTES DE SUBIR LA WEB
-    const PRIVATE_USER = "santisystems";
-    const PRIVATE_PASS = "Santi000.";
+<!-- ============ DASHBOARD PAGE ============ -->
+<div id="dashboardPage" class="page hidden">
+  <div class="layout">
 
-    const loginScreen = document.getElementById("loginScreen");
-    const privateArea = document.getElementById("privateArea");
-    const loginBtn = document.getElementById("loginBtn");
-    const logoutBtn = document.getElementById("logoutBtn");
-    const backToConstruction = document.getElementById("backToConstruction");
-    const demoBtn = document.getElementById("demoBtn");
-    const usernameInput = document.getElementById("username");
-    const passwordInput = document.getElementById("password");
-    const errorMsg = document.getElementById("errorMsg");
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-mark">S</div>
+        <div class="sidebar-logo-text">Santi<span>Systems</span></div>
+      </div>
 
-    function showPrivateArea() {
-      loginScreen.classList.add("hidden");
-      privateArea.classList.remove("hidden");
-      sessionStorage.setItem("santisystems_auth", "ok");
-      errorMsg.textContent = "";
+      <div class="nav-section-label">General</div>
+      <button class="nav-item active">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/></svg>
+        Inicio
+      </button>
+      <button class="nav-item">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M14.25 9.75 16.5 12l-2.25 2.25m-4.5 0L7.5 12l2.25-2.25M6 20.25h12A2.25 2.25 0 0 0 20.25 18V6A2.25 2.25 0 0 0 18 3.75H6A2.25 2.25 0 0 0 3.75 6v12A2.25 2.25 0 0 0 6 20.25Z"/></svg>
+        Apps
+        <span class="nav-badge">3</span>
+      </button>
+      <button class="nav-item">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
+        Ajustes
+      </button>
+
+      <div class="sidebar-bottom">
+        <div class="user-chip">
+          <div class="avatar">S</div>
+          <div class="user-info">
+            <div class="user-name" id="sidebarUsername">—</div>
+            <div class="user-role">Administrador</div>
+          </div>
+          <button class="btn-logout" id="logoutBtn" title="Cerrar sesión">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"/></svg>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Content -->
+    <main class="content">
+
+      <div class="content-header dash-animate">
+        <div>
+          <h2>Panel principal</h2>
+          <p class="greeting">Aquí tienes una vista general de tus proyectos activos.</p>
+        </div>
+        <button class="btn btn-primary" onclick="window.open('https://santisystems.es','_blank')">
+          <svg style="width:15px;height:15px" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>
+          Web pública
+        </button>
+      </div>
+
+      <div class="stats-row dash-animate">
+        <div class="stat-card blue">
+          <div class="stat-icon blue">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M14.25 9.75 16.5 12l-2.25 2.25m-4.5 0L7.5 12l2.25-2.25M6 20.25h12A2.25 2.25 0 0 0 20.25 18V6A2.25 2.25 0 0 0 18 3.75H6A2.25 2.25 0 0 0 3.75 6v12A2.25 2.25 0 0 0 6 20.25Z"/></svg>
+          </div>
+          <div class="stat-value">3</div>
+          <div class="stat-label">Apps en cartera</div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-icon green">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+          </div>
+          <div class="stat-value">2</div>
+          <div class="stat-label">Apps activas</div>
+        </div>
+        <div class="stat-card purple">
+          <div class="stat-icon purple">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 0 1-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 0 0 6.16-12.12A14.98 14.98 0 0 0 9.631 8.41m5.96 5.96a14.926 14.926 0 0 1-5.841 2.58m-.119-8.54a6 6 0 0 0-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 0 0-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 0 1-2.448-2.448 14.9 14.9 0 0 1 .06-.312m-2.24 2.39a4.493 4.493 0 0 0-1.757 4.306 4.493 4.493 0 0 0 4.306-1.758M16.5 9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/></svg>
+          </div>
+          <div class="stat-value">1</div>
+          <div class="stat-label">En desarrollo</div>
+        </div>
+      </div>
+
+      <div class="section-title dash-animate">Tus aplicaciones</div>
+
+      <div class="apps-grid dash-animate">
+
+        <article class="app-card blue-card">
+          <div class="app-card-header">
+            <div class="app-icon blue">💼</div>
+            <span class="app-status status-live">● Activa</span>
+          </div>
+          <h3>GestionPro</h3>
+          <p>Presupuestos, facturas y documentos profesionales para autónomos y pequeños negocios.</p>
+          <ul class="feature-list blue">
+            <li>Generación de presupuestos y facturas</li>
+            <li>Enfoque profesional y productivo</li>
+            <li>Ideal para mostrar capturas y demos</li>
+          </ul>
+        </article>
+
+        <article class="app-card green-card">
+          <div class="app-card-header">
+            <div class="app-icon green">⚡</div>
+            <span class="app-status status-live">● Activa</span>
+          </div>
+          <h3>ActivatePro</h3>
+          <p>Hábitos, salud y organización con IA. Un producto moderno listo para destacar en el mercado.</p>
+          <ul class="feature-list green">
+            <li>Imagen moderna de marca</li>
+            <li>Preparado para monetización</li>
+            <li>Versión futura con IA guiada</li>
+          </ul>
+        </article>
+
+        <article class="app-card purple-card">
+          <div class="app-card-header">
+            <div class="app-icon purple">🎯</div>
+            <span class="app-status status-soon">⏳ Próximamente</span>
+          </div>
+          <h3>OpositaPro</h3>
+          <p>Nueva app para opositores: estudio, planificación, seguimiento y preparación intensiva.</p>
+          <ul class="feature-list purple">
+            <li>Proyecto nuevo de SantiSystems</li>
+            <li>Roadmap y lanzamiento próximo</li>
+            <li>Perfecta para anunciar antes de lanzar</li>
+          </ul>
+        </article>
+
+      </div>
+
+      <div class="brand-box dash-animate">
+        <div class="brand-box-text">
+          <h3>SantiSystems · Sobre la marca</h3>
+          <p>Desarrollamos apps útiles, claras y enfocadas a resolver problemas reales. Apostamos por herramientas prácticas, diseño directo y evolución continua de cada producto.</p>
+        </div>
+        <div class="brand-box-actions">
+          <button class="btn btn-primary">Ver portada</button>
+          <button class="btn btn-secondary" id="logoutBtn2">Cerrar sesión</button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script>
+  // ---- CREDENTIALS (change before deploying) ----
+  const PRIVATE_USER = "cambia_este_usuario";
+  const PRIVATE_PASS = "cambia_esta_contraseña";
+
+  // ---- CANVAS PARTICLES ----
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function createParticles() {
+    particles = [];
+    const n = Math.floor((W * H) / 22000);
+    for (let i = 0; i < n; i++) {
+      particles.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 1.6 + 0.3,
+        vx: (Math.random() - 0.5) * 0.25,
+        vy: (Math.random() - 0.5) * 0.25,
+        o: Math.random() * 0.45 + 0.05,
+      });
+    }
+  }
+
+  function drawParticles() {
+    ctx.clearRect(0, 0, W, H);
+    // gradient orbs
+    const orb1 = ctx.createRadialGradient(W * 0.15, H * 0.2, 0, W * 0.15, H * 0.2, W * 0.35);
+    orb1.addColorStop(0, 'rgba(79,142,247,0.13)');
+    orb1.addColorStop(1, 'transparent');
+    ctx.fillStyle = orb1;
+    ctx.fillRect(0, 0, W, H);
+
+    const orb2 = ctx.createRadialGradient(W * 0.85, H * 0.75, 0, W * 0.85, H * 0.75, W * 0.3);
+    orb2.addColorStop(0, 'rgba(34,216,122,0.09)');
+    orb2.addColorStop(1, 'transparent');
+    ctx.fillStyle = orb2;
+    ctx.fillRect(0, 0, W, H);
+
+    // dots
+    for (const p of particles) {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(180,200,255,${p.o})`;
+      ctx.fill();
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0) p.x = W;
+      if (p.x > W) p.x = 0;
+      if (p.y < 0) p.y = H;
+      if (p.y > H) p.y = 0;
     }
 
-    function showLogin() {
-      privateArea.classList.add("hidden");
-      loginScreen.classList.remove("hidden");
+    requestAnimationFrame(drawParticles);
+  }
+
+  resize();
+  createParticles();
+  drawParticles();
+  window.addEventListener('resize', () => { resize(); createParticles(); });
+
+  // ---- AUTH ----
+  const loginPage = document.getElementById('loginPage');
+  const dashboardPage = document.getElementById('dashboardPage');
+  const loginBtn = document.getElementById('loginBtn');
+  const usernameInput = document.getElementById('username');
+  const passwordInput = document.getElementById('password');
+  const errorMsg = document.getElementById('errorMsg');
+
+  function showDashboard(user) {
+    loginPage.classList.add('hidden');
+    dashboardPage.classList.remove('hidden');
+    document.getElementById('sidebarUsername').textContent = user;
+    sessionStorage.setItem('ss_auth', user);
+    errorMsg.textContent = '';
+  }
+
+  function showLogin() {
+    dashboardPage.classList.add('hidden');
+    loginPage.classList.remove('hidden');
+    sessionStorage.removeItem('ss_auth');
+    passwordInput.value = '';
+  }
+
+  function doLogin() {
+    const u = usernameInput.value.trim();
+    const p = passwordInput.value;
+    if (u === PRIVATE_USER && p === PRIVATE_PASS) {
+      showDashboard(u);
+    } else {
+      errorMsg.innerHTML = '⚠ Usuario o contraseña incorrectos.';
+      passwordInput.value = '';
+      passwordInput.focus();
     }
+  }
 
-    function doLogin() {
-      const user = usernameInput.value.trim();
-      const pass = passwordInput.value;
+  loginBtn.addEventListener('click', doLogin);
+  passwordInput.addEventListener('keydown', e => e.key === 'Enter' && doLogin());
+  usernameInput.addEventListener('keydown', e => e.key === 'Enter' && doLogin());
 
-      if (user === PRIVATE_USER && pass === PRIVATE_PASS) {
-        showPrivateArea();
-      } else {
-        errorMsg.textContent = "Usuario o contraseña incorrectos.";
-      }
-    }
+  document.getElementById('logoutBtn').addEventListener('click', showLogin);
+  document.getElementById('logoutBtn2').addEventListener('click', showLogin);
 
-    loginBtn.addEventListener("click", doLogin);
-
-    passwordInput.addEventListener("keydown", function (e) {
-      if (e.key === "Enter") doLogin();
-    });
-
-    usernameInput.addEventListener("keydown", function (e) {
-      if (e.key === "Enter") doLogin();
-    });
-
-    logoutBtn.addEventListener("click", function () {
-      sessionStorage.removeItem("santisystems_auth");
-      passwordInput.value = "";
-      showLogin();
-    });
-
-    backToConstruction.addEventListener("click", function () {
-      showLogin();
-    });
-
-    demoBtn.addEventListener("click", function () {
-      usernameInput.value = "";
-      passwordInput.value = "";
-      errorMsg.textContent = "";
-      usernameInput.focus();
-    });
-
-    if (sessionStorage.getItem("santisystems_auth") === "ok") {
-      showPrivateArea();
-    }
-  </script>
+  const saved = sessionStorage.getItem('ss_auth');
+  if (saved) showDashboard(saved);
+</script>
 </body>
 </html>
