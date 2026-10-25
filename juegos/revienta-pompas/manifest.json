@@ -1,0 +1,26 @@
+{
+  "name": "Revienta Pompas",
+  "short_name": "Pompas",
+  "description": "Juego arcade de arpón y burbujas con 25 fases. SantiSystems Games.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "any",
+  "background_color": "#14102b",
+  "theme_color": "#14102b",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
