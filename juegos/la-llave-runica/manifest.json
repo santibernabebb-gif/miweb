@@ -1,0 +1,27 @@
+{
+  "id": "/juegos/la-llave-runica/",
+  "name": "La Llave Rúnica",
+  "short_name": "Llave Rúnica",
+  "description": "Juego de magia y bloques en 25 salas: crea y destruye bloques, coge la llave y escapa.",
+  "start_url": "/juegos/la-llave-runica/",
+  "scope": "/juegos/la-llave-runica/",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#0a0c14",
+  "theme_color": "#0a0c14",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "/juegos/la-llave-runica/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/juegos/la-llave-runica/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
