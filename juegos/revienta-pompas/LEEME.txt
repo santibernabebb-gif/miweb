@@ -1,0 +1,25 @@
+REVIENTA POMPAS · SantiSystems Games
+=====================================
+
+Contenido:
+  index.html               El juego completo
+  manifest.json            Datos para instalarlo como app (PWA)
+  sw.js                    Permite jugar sin conexión
+  icon-192.png / icon-512.png   Iconos de la app
+  SantiSystemsGames-logo.png / .svg   Logo suelto para tu web
+
+Cómo subirlo:
+  1. Descomprime el ZIP.
+  2. Sube TODOS los archivos a una carpeta de tu web, por ejemplo /juegos/revienta-pompas/
+  3. La web debe tener HTTPS (certificado SSL) para que se pueda instalar como app.
+  4. Abre https://tudominio/juegos/revienta-pompas/
+
+Instalar como app:
+  Android (Chrome): menú ⋮ → Instalar aplicación
+  iPhone (Safari):  Compartir → Añadir a pantalla de inicio
+  PC (Chrome/Edge): icono de instalar en la barra de direcciones
+
+Si subes una versión nueva, sube el número de 'revienta-pompas-v5' (v3, v4...) en sw.js
+para que los jugadores reciban la actualización.
+
+El guardado de partida se queda en el navegador de cada jugador.
