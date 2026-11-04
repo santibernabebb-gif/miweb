@@ -1,0 +1,47 @@
+{
+  "name": "Lectolandia",
+  "short_name": "Lectolandia",
+  "description": "Juegos para aprender a leer jugando · SantiSystems Games",
+  "start_url": "/juegos/lectolandia/",
+  "scope": "/juegos/lectolandia/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#43B0F1",
+  "theme_color": "#43B0F1",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "/juegos/lectolandia/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/juegos/lectolandia/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/juegos/lectolandia/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "id": "/juegos/lectolandia/",
+  "categories": [
+    "games",
+    "education",
+    "kids"
+  ],
+  "prefer_related_applications": false,
+  "related_applications": [
+    {
+      "platform": "webapp",
+      "url": "https://www.santisystems.es/juegos/lectolandia/manifest.webmanifest"
+    },
+    {
+      "platform": "webapp",
+      "url": "https://santisystems.es/juegos/lectolandia/manifest.webmanifest"
+    }
+  ]
+}
