@@ -1,0 +1,31 @@
+{
+  "id": "/juegos/don-hierro/",
+  "name": "Don Hierro",
+  "short_name": "Don Hierro",
+  "description": "Juego de plataformas de SantiSystems Games: 10 fases, trampas y jefes.",
+  "lang": "es",
+  "start_url": "/juegos/don-hierro/",
+  "scope": "/juegos/don-hierro/",
+  "display": "fullscreen",
+  "orientation": "any",
+  "background_color": "#100c1d",
+  "theme_color": "#100c1d",
+  "icons": [
+    {
+      "src": "/juegos/don-hierro/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/juegos/don-hierro/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/juegos/don-hierro/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
